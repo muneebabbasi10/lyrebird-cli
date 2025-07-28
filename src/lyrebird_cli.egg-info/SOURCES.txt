@@ -1,0 +1,14 @@
+README.md
+pyproject.toml
+setup.cfg
+setup.py
+src/lyrebird/__init__.py
+src/lyrebird/__main__.py
+src/lyrebird/cli.py
+src/lyrebird_cli.egg-info/PKG-INFO
+src/lyrebird_cli.egg-info/SOURCES.txt
+src/lyrebird_cli.egg-info/dependency_links.txt
+src/lyrebird_cli.egg-info/entry_points.txt
+src/lyrebird_cli.egg-info/requires.txt
+src/lyrebird_cli.egg-info/top_level.txt
+tests/test_cli.py

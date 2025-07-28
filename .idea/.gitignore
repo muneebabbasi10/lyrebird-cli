@@ -1,0 +1,14 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+dist/
+build/
+*.egg-info/
+.DS_Store

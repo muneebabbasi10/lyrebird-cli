@@ -1,0 +1,347 @@
+Metadata-Version: 2.4
+Name: lyrebird-cli
+Version: 0.1.0
+Summary: 🐦 Lyrebird CLI: AI-Powered Coding Assistant in Your Terminal
+Author-email: Muneeb Mahfooz Abbasi <abbasimuneeb54@gmail.com>
+License: Apache-2.0
+Project-URL: Homepage, https://github.com/muneebabbasi10/lyrebird-cli
+Project-URL: Documentation, https://github.com/muneebabbasi10/lyrebird-cli#readme
+Project-URL: Repository, https://github.com/muneebabbasi10/lyrebird-cli
+Project-URL: Bug Tracker, https://github.com/yourusername/lyrebird-cli/issues
+Keywords: cli,ai,coding,assistant,llm,openai,deepseek
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Code Generators
+Classifier: Topic :: Text Processing :: Linguistic
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: typer[all]>=0.9.0
+Requires-Dist: openai>=1.3.0
+Requires-Dist: rich>=13.0.0
+Requires-Dist: python-dotenv>=1.0.0
+Requires-Dist: requests>=2.28.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+Requires-Dist: mypy>=1.0.0; extra == "dev"
+Requires-Dist: pre-commit>=3.0.0; extra == "dev"
+
+# 🐦 Lyrebird CLI
+
+An AI-powered coding assistant that brings advanced code generation, debugging, refactoring, and explanation capabilities directly to your terminal. Like Google's Gemini CLI and Anthropic's Claude Code, but open-source and flexible.
+
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+## ✨ Features
+
+- **Code Generation**: Generate code from natural language prompts
+- **Bug Fixing**: Automatically detect and fix bugs in your code
+- **Code Refactoring**: Improve code quality, readability, and performance
+- **Code Explanation**: Get detailed explanations of how code works
+- **Codebase Analysis**: Summarize project architecture and structure
+- **Multiple Providers**: Support for OpenRouter and DeepSeek APIs
+- **Rich Output**: Beautiful syntax highlighting and formatting
+- **Flexible Input**: Read from files, stdin, or direct prompts
+- **JSON Output**: Machine-readable output for scripting
+
+## 🚀 Installation
+
+### From PyPI (Recommended)
+
+```bash
+pip install lyrebird-cli
+```
+
+### From Source
+
+```bash
+git clone https://github.com/yourusername/lyrebird-cli.git
+cd lyrebird-cli
+pip install -e .
+```
+
+### For Development
+
+```bash
+git clone https://github.com/yourusername/lyrebird-cli.git
+cd lyrebird-cli
+pip install -e ".[dev]"
+```
+
+## 🔧 Setup
+
+### API Keys
+
+Lyrebird supports two API providers:
+
+#### OpenRouter (Recommended)
+```bash
+export OPENROUTER_API_KEY="sk-or-v1-..."
+```
+
+#### DeepSeek
+```bash
+export DEEPSEEK_API_KEY="sk-..."
+```
+
+You can get API keys from:
+- [OpenRouter](https://openrouter.ai/) - Access to multiple models (GPT-4, Claude, etc.)
+- [DeepSeek](https://platform.deepseek.com/) - Specialized coding models
+
+### Environment File (Optional)
+
+Create a `.env` file in your project directory:
+
+```env
+OPENROUTER_API_KEY=sk-or-v1-...
+DEEPSEEK_API_KEY=sk-...
+```
+
+## 📖 Usage
+
+### Basic Commands
+
+#### Generate Code
+```bash
+# Generate code from a prompt
+lyrebird generate "Create a binary search function in Python"
+
+# Generate with specific language
+lyrebird generate "Create a REST API" --lang javascript
+
+# Use file for context
+lyrebird generate "Add error handling" --file existing_code.py
+```
+
+#### Fix Bugs
+```bash
+# Fix bugs in a file
+lyrebird fix buggy_script.py
+
+# Fix code from stdin
+cat broken_code.py | lyrebird fix
+
+# Fix with specific provider
+lyrebird fix --provider deepseek < code_with_issues.py
+```
+
+#### Refactor Code
+```bash
+# Refactor for better quality
+lyrebird refactor messy_code.py
+
+# Refactor from stdin
+cat old_code.py | lyrebird refactor
+
+# Output to JSON for processing
+lyrebird refactor --format json < legacy_code.py
+```
+
+#### Explain Code
+```bash
+# Explain how code works
+lyrebird explain complex_algorithm.py
+
+# Explain code from stdin
+cat mysterious_code.py | lyrebird explain
+
+# Get explanation in JSON format
+lyrebird explain --format json < code_to_understand.py
+```
+
+#### Analyze Codebase
+```bash
+# Get project overview
+lyrebird summarize ./my_project
+
+# Analyze with specific model
+lyrebird summarize ./codebase --model openai/gpt-4o
+```
+
+### Advanced Usage
+
+#### Provider Selection
+```bash
+# Use OpenRouter (default)
+lyrebird generate "Hello world" --provider openrouter
+
+# Use DeepSeek for code-focused tasks
+lyrebird generate "Optimize this algorithm" --provider deepseek
+```
+
+#### Model Selection
+```bash
+# Specify exact model
+lyrebird generate "Complex task" --model openai/gpt-4o
+lyrebird generate "Quick task" --model openai/gpt-3.5-turbo
+
+# DeepSeek models
+lyrebird generate "Code task" --provider deepseek --model deepseek-chat
+```
+
+#### Output Formats
+```bash
+# Human-readable output (default)
+lyrebird generate "Hello world" --format text
+
+# JSON output for scripting
+lyrebird generate "Hello world" --format json | jq '.content'
+```
+
+#### Verbose Mode
+```bash
+# Enable debug logging
+lyrebird generate "Test" --verbose
+```
+
+## 🔄 Workflow Examples
+
+### Daily Development Workflow
+
+```bash
+# Start by understanding existing code
+lyrebird explain legacy_module.py
+
+# Generate new feature based on understanding
+lyrebird generate "Add user authentication" --file user_model.py
+
+# Fix any issues
+lyrebird fix new_feature.py
+
+# Refactor for better quality
+lyrebird refactor new_feature.py
+
+# Get project overview
+lyrebird summarize .
+```
+
+### Code Review Process
+
+```bash
+# Explain complex parts
+lyrebird explain src/algorithms/complex_sort.py
+
+# Check for potential issues
+lyrebird fix --format json src/ | jq '.content'
+
+# Suggest improvements
+lyrebird refactor src/main.py
+```
+
+### Learning and Documentation
+
+```bash
+# Understand new codebase
+lyrebird summarize ./new_project
+
+# Learn specific techniques
+lyrebird explain design_patterns.py
+
+# Generate examples
+lyrebird generate "Show me how to use asyncio with FastAPI"
+```
+
+## 🛠️ Development
+
+### Setting Up Development Environment
+
+```bash
+# Clone repository
+git clone https://github.com/yourusername/lyrebird-cli.git
+cd lyrebird-cli
+
+# Install in development mode
+pip install -e ".[dev]"
+
+# Install pre-commit hooks
+pre-commit install
+```
+
+### Running Tests
+
+```bash
+# Run all tests
+pytest
+
+# Run with coverage
+pytest --cov=src --cov-report=html
+
+# Run specific tests
+pytest tests/test_cli.py::TestLyrebirdClient
+```
+
+### Code Quality
+
+```bash
+# Format code
+black src tests
+
+# Lint code
+flake8 src tests
+
+# Type checking
+mypy src
+```
+
+### Building and Publishing
+
+```bash
+# Build package
+python -m build
+
+# Upload to PyPI
+twine upload dist/*
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Add tests for new functionality
+5. Ensure all tests pass (`pytest`)
+6. Format code (`black src tests`)
+7. Commit changes (`git commit -m 'Add amazing feature'`)
+8. Push to branch (`git push origin feature/amazing-feature`)
+9. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Inspired by [Google Gemini CLI](https://github.com/google-gemini/gemini-cli) and [Anthropic Claude Code](https://docs.anthropic.com/en/docs/claude-code/cli-reference)
+- Built with [Typer](https://typer.tiangolo.com/) for the CLI framework
+- Uses [Rich](https://rich.readthedocs.io/) for beautiful terminal output
+- Powered by [OpenRouter](https://openrouter.ai/) and [DeepSeek](https://platform.deepseek.com/) APIs
+
+## 📚 Related Projects
+
+- [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code/cli-reference) - Anthropic's official CLI
+- [Gemini CLI](https://github.com/google-gemini/gemini-cli) - Google's official CLI
+
+## 🐛 Bug Reports & Feature Requests
+
+Please use the [GitHub Issues](https://github.com/yourusername/lyrebird-cli/issues) page to report bugs or request features.
+
+## 📞 Support
+
+- 📖 Documentation: [README](https://github.com/yourusername/lyrebird-cli#readme)
+
+---
+
+Made with ❤️ by the Muneeb. Happy coding! 🚀

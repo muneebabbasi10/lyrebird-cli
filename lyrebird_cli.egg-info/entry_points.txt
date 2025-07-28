@@ -1,0 +1,2 @@
+[console_scripts]
+lyrebird = src.lyrebird.cli:app
