@@ -286,7 +286,7 @@ Apache 2.0 - See [LICENSE](https://github.com/apache/httpd/blob/trunk/LICENSE)
 ## 📒 Related Projects
 
 * [Claude Code CLI](https://www.anthropic.com/claude-code)
-* [Gemini CLI](https://ai.google.dev/gemini-api/docs/cli)
+* [Gemini CLI](https://github.com/google-gemini/gemini-cli)
 
 ## 🛡️ Support
 
