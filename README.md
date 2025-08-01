@@ -285,14 +285,13 @@ Apache 2.0 - See [LICENSE](https://github.com/apache/httpd/blob/trunk/LICENSE)
 
 ## 📒 Related Projects
 
-* [Claude Code CLI](https://claude.ai/cli)
+* [Claude Code CLI](https://www.anthropic.com/claude-code)
 * [Gemini CLI](https://ai.google.dev/gemini-api/docs/cli)
 
 ## 🛡️ Support
 
 * Bugs: [GitHub Issues](https://github.com/muneebabbasi10/lyrebird-cli/issues)
-* Features: [GitHub Discussions](https://github.com/muneebabbasi10/lyrebird-cli/discussions)
-* Docs: `lyrebird --help`
+* Features: [GitHub Discussions](https://github.com/muneebabbasi10/lyrebird-cli/)
 * Email: \[abbasimuneeb54@gmail.com]
 
 
