@@ -27,8 +27,8 @@ console = Console()
 # Configure logging
 logging.basicConfig(
     level=logging.WARNING,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[logging.StreamHandler(sys.stderr)]
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.StreamHandler(sys.stderr)],
 )
 logger = logging.getLogger(__name__)
 
@@ -46,7 +46,9 @@ class OutputFormat(str, Enum):
 class LyrebirdClient:
     """Client for interacting with LLM APIs"""
 
-    def __init__(self, provider: Provider, model: Optional[str] = None, verbose: bool = False):
+    def __init__(
+        self, provider: Provider, model: Optional[str] = None, verbose: bool = False
+    ):
         self.provider = provider
         self.verbose = verbose
 
@@ -57,25 +59,25 @@ class LyrebirdClient:
         if provider == Provider.openrouter:
             api_key = os.getenv("OPENROUTER_API_KEY")
             if not api_key:
-                console.print("[red]Error: OPENROUTER_API_KEY environment variable not set[/red]")
+                console.print(
+                    "[red]Error: OPENROUTER_API_KEY environment variable not set[/red]"
+                )
                 raise typer.Exit(1)
 
             self.client = OpenAI(
-                base_url="https://openrouter.ai/api/v1",
-                api_key=api_key
+                base_url="https://openrouter.ai/api/v1", api_key=api_key
             )
             self.model = model or "openai/gpt-4"
 
         elif provider == Provider.deepseek:
             api_key = os.getenv("DEEPSEEK_API_KEY")
             if not api_key:
-                console.print("[red]Error: DEEPSEEK_API_KEY environment variable not set[/red]")
+                console.print(
+                    "[red]Error: DEEPSEEK_API_KEY environment variable not set[/red]"
+                )
                 raise typer.Exit(1)
 
-            self.client = OpenAI(
-                base_url="https://api.deepseek.com",
-                api_key=api_key
-            )
+            self.client = OpenAI(base_url="https://api.deepseek.com", api_key=api_key)
             self.model = model or "deepseek-chat"
 
         logger.debug(f"Initialized {provider} client with model: {self.model}")
@@ -85,15 +87,13 @@ class LyrebirdClient:
         try:
             messages = [
                 {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
+                {"role": "user", "content": user_prompt},
             ]
 
             logger.debug(f"Making API request with {len(messages)} messages")
 
             response = self.client.chat.completions.create(
-                model=self.model,
-                messages=messages,
-                temperature=0.1
+                model=self.model, messages=messages, temperature=0.1
             )
 
             result = response.choices[0].message.content
@@ -112,7 +112,7 @@ app = typer.Typer(
     name="lyrebird",
     help="🐦 Lyrebird CLI: AI-Powered Coding Assistant in Your Terminal",
     add_completion=False,
-    rich_markup_mode="rich"
+    rich_markup_mode="rich",
 )
 
 
@@ -130,7 +130,7 @@ def read_input(file: Optional[Path] = None) -> str:
             console.print(f"[red]Error: File {file} does not exist[/red]")
             raise typer.Exit(1)
         try:
-            return file.read_text(encoding='utf-8')
+            return file.read_text(encoding="utf-8")
         except Exception as e:
             console.print(f"[red]Error reading file {file}: {e}[/red]")
             raise typer.Exit(1)
@@ -145,12 +145,15 @@ def read_input(file: Optional[Path] = None) -> str:
 def format_output(content: str, output_format: OutputFormat, task: str) -> str:
     """Format output according to specified format"""
     if output_format == OutputFormat.json:
-        return json.dumps({
-            "task": task,
-            "content": content,
-            "timestamp": str(Path().cwd()),
-            "version": __version__
-        }, indent=2)
+        return json.dumps(
+            {
+                "task": task,
+                "content": content,
+                "timestamp": str(Path().cwd()),
+                "version": __version__,
+            },
+            indent=2,
+        )
 
     return content
 
@@ -163,13 +166,13 @@ def display_code(content: str, language: str = "python"):
 
 @app.callback()
 def main(
-        version: Optional[bool] = typer.Option(
-            None,
-            "--version",
-            callback=version_callback,
-            is_eager=True,
-            help="Show version and exit"
-        )
+    version: Optional[bool] = typer.Option(
+        None,
+        "--version",
+        callback=version_callback,
+        is_eager=True,
+        help="Show version and exit",
+    ),
 ):
     """🐦 Lyrebird CLI: AI-Powered Coding Assistant in Your Terminal"""
     pass
@@ -177,17 +180,21 @@ def main(
 
 @app.command()
 def generate(
-        prompt: str = typer.Argument(..., help="Task description for code generation"),
-        provider: Provider = typer.Option(
-            ...,
-            "--provider", "-p",
-            help="API provider to use (openrouter or deepseek)"
-        ),
-        file: Optional[Path] = typer.Option(None, "--file", "-f", help="Input file for context"),
-        language: str = typer.Option("python", "--lang", "-l", help="Programming language"),
-        model: Optional[str] = typer.Option(None, "--model", "-m", help="Model to use"),
-        output_format: OutputFormat = typer.Option(OutputFormat.text, "--format", help="Output format"),
-        verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose logging")
+    prompt: str = typer.Argument(..., help="Task description for code generation"),
+    provider: Provider = typer.Option(
+        ..., "--provider", "-p", help="API provider to use (openrouter or deepseek)"
+    ),
+    file: Optional[Path] = typer.Option(
+        None, "--file", "-f", help="Input file for context"
+    ),
+    language: str = typer.Option("python", "--lang", "-l", help="Programming language"),
+    model: Optional[str] = typer.Option(None, "--model", "-m", help="Model to use"),
+    output_format: OutputFormat = typer.Option(
+        OutputFormat.text, "--format", help="Output format"
+    ),
+    verbose: bool = typer.Option(
+        False, "--verbose", "-v", help="Enable verbose logging"
+    ),
 ):
     """Generate code from a natural language prompt"""
 
@@ -197,7 +204,9 @@ def generate(
     context = ""
     if file:
         context = read_input(file)
-        context_info = f"\n\nAdditional context from {file}:\n```{language}\n{context}\n```"
+        context_info = (
+            f"\n\nAdditional context from {file}:\n```{language}\n{context}\n```"
+        )
     else:
         context_info = ""
 
@@ -215,9 +224,9 @@ Requirements:
 - Make the code production-ready"""
 
     with Progress(
-            SpinnerColumn(),
-            TextColumn("[progress.description]{task.description}"),
-            console=console
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        console=console,
     ) as progress:
         task = progress.add_task("Generating code...", total=None)
 
@@ -239,15 +248,19 @@ Requirements:
 
 @app.command()
 def fix(
-        file: Optional[Path] = typer.Argument(None, help="File to fix (or read from stdin)"),
-        provider: Provider = typer.Option(
-            ...,
-            "--provider", "-p",
-            help="API provider to use (openrouter or deepseek)"
-        ),
-        model: Optional[str] = typer.Option(None, "--model", "-m", help="Model to use"),
-        output_format: OutputFormat = typer.Option(OutputFormat.text, "--format", help="Output format"),
-        verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose logging")
+    file: Optional[Path] = typer.Argument(
+        None, help="File to fix (or read from stdin)"
+    ),
+    provider: Provider = typer.Option(
+        ..., "--provider", "-p", help="API provider to use (openrouter or deepseek)"
+    ),
+    model: Optional[str] = typer.Option(None, "--model", "-m", help="Model to use"),
+    output_format: OutputFormat = typer.Option(
+        OutputFormat.text, "--format", help="Output format"
+    ),
+    verbose: bool = typer.Option(
+        False, "--verbose", "-v", help="Enable verbose logging"
+    ),
 ):
     """Fix bugs and errors in code"""
 
@@ -262,8 +275,14 @@ def fix(
     # Detect language from file extension or content
     language = "python"  # default
     if file and file.suffix:
-        ext_map = {'.py': 'python', '.js': 'javascript', '.java': 'java', '.cpp': 'cpp', '.c': 'c'}
-        language = ext_map.get(file.suffix.lower(), 'python')
+        ext_map = {
+            ".py": "python",
+            ".js": "javascript",
+            ".java": "java",
+            ".cpp": "cpp",
+            ".c": "c",
+        }
+        language = ext_map.get(file.suffix.lower(), "python")
 
     system_prompt = f"""You are an expert {language} developer and debugger.
 Fix bugs, syntax errors, and logical issues in the provided code.
@@ -284,9 +303,9 @@ Requirements:
 - Return only the corrected code"""
 
     with Progress(
-            SpinnerColumn(),
-            TextColumn("[progress.description]{task.description}"),
-            console=console
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        console=console,
     ) as progress:
         task = progress.add_task("Fixing code...", total=None)
 
@@ -308,15 +327,19 @@ Requirements:
 
 @app.command()
 def refactor(
-        file: Optional[Path] = typer.Argument(None, help="File to refactor (or read from stdin)"),
-        provider: Provider = typer.Option(
-            ...,
-            "--provider", "-p",
-            help="API provider to use (openrouter or deepseek)"
-        ),
-        model: Optional[str] = typer.Option(None, "--model", "-m", help="Model to use"),
-        output_format: OutputFormat = typer.Option(OutputFormat.text, "--format", help="Output format"),
-        verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose logging")
+    file: Optional[Path] = typer.Argument(
+        None, help="File to refactor (or read from stdin)"
+    ),
+    provider: Provider = typer.Option(
+        ..., "--provider", "-p", help="API provider to use (openrouter or deepseek)"
+    ),
+    model: Optional[str] = typer.Option(None, "--model", "-m", help="Model to use"),
+    output_format: OutputFormat = typer.Option(
+        OutputFormat.text, "--format", help="Output format"
+    ),
+    verbose: bool = typer.Option(
+        False, "--verbose", "-v", help="Enable verbose logging"
+    ),
 ):
     """Refactor code for better performance and readability"""
 
@@ -331,8 +354,14 @@ def refactor(
     # Detect language from file extension
     language = "python"  # default
     if file and file.suffix:
-        ext_map = {'.py': 'python', '.js': 'javascript', '.java': 'java', '.cpp': 'cpp', '.c': 'c'}
-        language = ext_map.get(file.suffix.lower(), 'python')
+        ext_map = {
+            ".py": "python",
+            ".js": "javascript",
+            ".java": "java",
+            ".cpp": "cpp",
+            ".c": "c",
+        }
+        language = ext_map.get(file.suffix.lower(), "python")
 
     system_prompt = f"""You are an expert {language} developer focused on code optimization and best practices.
 Refactor code to improve readability, performance, and maintainability while preserving functionality."""
@@ -355,9 +384,9 @@ Refactoring goals:
 Return only the refactored code"""
 
     with Progress(
-            SpinnerColumn(),
-            TextColumn("[progress.description]{task.description}"),
-            console=console
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        console=console,
     ) as progress:
         task = progress.add_task("Refactoring code...", total=None)
 
@@ -379,15 +408,19 @@ Return only the refactored code"""
 
 @app.command()
 def explain(
-        file: Optional[Path] = typer.Argument(None, help="File to explain (or read from stdin)"),
-        provider: Provider = typer.Option(
-            ...,
-            "--provider", "-p",
-            help="API provider to use (openrouter or deepseek)"
-        ),
-        model: Optional[str] = typer.Option(None, "--model", "-m", help="Model to use"),
-        output_format: OutputFormat = typer.Option(OutputFormat.text, "--format", help="Output format"),
-        verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose logging")
+    file: Optional[Path] = typer.Argument(
+        None, help="File to explain (or read from stdin)"
+    ),
+    provider: Provider = typer.Option(
+        ..., "--provider", "-p", help="API provider to use (openrouter or deepseek)"
+    ),
+    model: Optional[str] = typer.Option(None, "--model", "-m", help="Model to use"),
+    output_format: OutputFormat = typer.Option(
+        OutputFormat.text, "--format", help="Output format"
+    ),
+    verbose: bool = typer.Option(
+        False, "--verbose", "-v", help="Enable verbose logging"
+    ),
 ):
     """Explain code functionality and structure"""
 
@@ -402,8 +435,14 @@ def explain(
     # Detect language from file extension
     language = "python"  # default
     if file and file.suffix:
-        ext_map = {'.py': 'python', '.js': 'javascript', '.java': 'java', '.cpp': 'cpp', '.c': 'c'}
-        language = ext_map.get(file.suffix.lower(), 'python')
+        ext_map = {
+            ".py": "python",
+            ".js": "javascript",
+            ".java": "java",
+            ".cpp": "cpp",
+            ".c": "c",
+        }
+        language = ext_map.get(file.suffix.lower(), "python")
 
     system_prompt = f"""You are an expert {language} developer and technical communicator.
 Provide clear, comprehensive explanations of code functionality, structure, and implementation details."""
@@ -424,9 +463,9 @@ Explanation should include:
 - How different parts work together"""
 
     with Progress(
-            SpinnerColumn(),
-            TextColumn("[progress.description]{task.description}"),
-            console=console
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        console=console,
     ) as progress:
         task = progress.add_task("Analyzing code...", total=None)
 
@@ -435,7 +474,9 @@ Explanation should include:
             progress.remove_task(task)
 
             if output_format == OutputFormat.text:
-                console.print(Panel(result, title="Code Explanation", border_style="blue"))
+                console.print(
+                    Panel(result, title="Code Explanation", border_style="blue")
+                )
             else:
                 formatted_output = format_output(result, output_format, "explain")
                 console.print(formatted_output)
@@ -448,15 +489,17 @@ Explanation should include:
 
 @app.command()
 def summarize(
-        directory: Path = typer.Argument(..., help="Directory to summarize"),
-        provider: Provider = typer.Option(
-            ...,
-            "--provider", "-p",
-            help="API provider to use (openrouter or deepseek)"
-        ),
-        model: Optional[str] = typer.Option(None, "--model", "-m", help="Model to use"),
-        output_format: OutputFormat = typer.Option(OutputFormat.text, "--format", help="Output format"),
-        verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose logging")
+    directory: Path = typer.Argument(..., help="Directory to summarize"),
+    provider: Provider = typer.Option(
+        ..., "--provider", "-p", help="API provider to use (openrouter or deepseek)"
+    ),
+    model: Optional[str] = typer.Option(None, "--model", "-m", help="Model to use"),
+    output_format: OutputFormat = typer.Option(
+        OutputFormat.text, "--format", help="Output format"
+    ),
+    verbose: bool = typer.Option(
+        False, "--verbose", "-v", help="Enable verbose logging"
+    ),
 ):
     """Summarize codebase structure and architecture"""
 
@@ -468,10 +511,10 @@ def summarize(
 
     # Collect code files
     code_files = []
-    extensions = {'.py', '.js', '.java', '.cpp', '.c', '.h', '.ts', '.jsx', '.tsx'}
+    extensions = {".py", ".js", ".java", ".cpp", ".c", ".h", ".ts", ".jsx", ".tsx"}
 
     for ext in extensions:
-        code_files.extend(directory.rglob(f'*{ext}'))
+        code_files.extend(directory.rglob(f"*{ext}"))
 
     if not code_files:
         console.print(f"[yellow]No code files found in {directory}[/yellow]")
@@ -485,7 +528,7 @@ def summarize(
 
     for file_path in code_files:
         try:
-            content = file_path.read_text(encoding='utf-8')
+            content = file_path.read_text(encoding="utf-8")
             # Truncate very large files
             if len(content) > 2000:
                 content = content[:2000] + "\n... (truncated)"
@@ -520,9 +563,9 @@ Please provide:
 - Potential areas for improvement"""
 
     with Progress(
-            SpinnerColumn(),
-            TextColumn("[progress.description]{task.description}"),
-            console=console
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        console=console,
     ) as progress:
         task = progress.add_task("Analyzing codebase...", total=None)
 
@@ -531,7 +574,13 @@ Please provide:
             progress.remove_task(task)
 
             if output_format == OutputFormat.text:
-                console.print(Panel(result, title=f"Codebase Summary: {directory.name}", border_style="cyan"))
+                console.print(
+                    Panel(
+                        result,
+                        title=f"Codebase Summary: {directory.name}",
+                        border_style="cyan",
+                    )
+                )
             else:
                 formatted_output = format_output(result, output_format, "summarize")
                 console.print(formatted_output)
