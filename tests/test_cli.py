@@ -26,8 +26,7 @@ class TestLyrebirdClient:
         assert client.provider == Provider.openrouter
         assert client.model == "openai/gpt-4"
         mock_openai.assert_called_once_with(
-            base_url="https://openrouter.ai/api/v1",
-            api_key="test-key"
+            base_url="https://openrouter.ai/api/v1", api_key="test-key"
         )
 
     @patch.dict(os.environ, {"DEEPSEEK_API_KEY": "test-key"})
@@ -38,8 +37,7 @@ class TestLyrebirdClient:
         assert client.provider == Provider.deepseek
         assert client.model == "deepseek-chat"
         mock_openai.assert_called_once_with(
-            base_url="https://api.deepseek.com",
-            api_key="test-key"
+            base_url="https://api.deepseek.com", api_key="test-key"
         )
 
     @patch.dict(os.environ, {}, clear=True)
@@ -67,6 +65,102 @@ class TestLyrebirdClient:
         assert result == "Generated code here"
         mock_client.chat.completions.create.assert_called_once()
 
+    @patch("src.lyrebird.cli.ollama")
+    def test_ollama_client_init(self, mock_ollama):
+        """Test Ollama client initialization"""
+        # Mock model list response
+        mock_ollama.list.return_value = {
+            "models": [
+                {"model": "codellama", "size": 1000},
+                {"model": "llama2", "size": 800},
+            ]
+        }
+
+        client = LyrebirdClient(Provider.ollama, verbose=False)
+        assert client.provider == Provider.ollama
+        assert client.model == "codellama"
+        mock_ollama.list.assert_called_once()
+        mock_ollama.pull.assert_not_called()
+
+    @patch("src.lyrebird.cli.ollama")
+    def test_ollama_client_init_missing_model(self, mock_ollama):
+        """Test Ollama client pulls missing model"""
+        # Mock model list response (missing requested model)
+        mock_ollama.list.return_value = {
+            "models": [
+                {"model": "codellama", "size": 1000},
+                {"model": "mistral", "size": 700},
+            ]
+        }
+
+        # Mock pull progress stream
+        mock_pull_stream = [
+            {"status": "starting"},
+            {"status": "downloading", "completed": 50, "total": 100},
+            {"status": "verifying"},
+            {"status": "complete"},
+        ]
+        mock_ollama.pull.return_value = mock_pull_stream
+
+        client = LyrebirdClient(Provider.ollama, model="llama3", verbose=False)
+        assert client.model == "llama3"
+        mock_ollama.list.assert_called_once()
+        mock_ollama.pull.assert_called_once_with("llama3", stream=True)
+
+    @patch("src.lyrebird.cli.ollama")
+    def test_ollama_client_pull_error(self, mock_ollama):
+        """Test Ollama client handles pull errors"""
+        mock_ollama.list.return_value = {"models": []}
+        mock_ollama.pull.side_effect = Exception("Network error")
+
+        with pytest.raises(typer.Exit) as exc_info:
+            LyrebirdClient(Provider.ollama, model="llama3")
+
+        assert exc_info.value.exit_code == 1
+        mock_ollama.pull.assert_called_once()
+
+    @patch("src.lyrebird.cli.ollama")
+    def test_ensure_ollama_model_exists_with_progress(self, mock_ollama):
+        """Test model pulling shows progress updates"""
+        # Mock model list response (missing model)
+        mock_ollama.list.return_value = {"models": []}
+
+        # Mock pull progress stream
+        mock_pull_stream = [
+            {"status": "starting"},
+            {"status": "downloading", "completed": 25, "total": 100},
+            {"status": "downloading", "completed": 50, "total": 100},
+            {"status": "downloading", "completed": 100, "total": 100},
+            {"status": "verifying"},
+            {"status": "complete"},
+        ]
+        mock_ollama.pull.return_value = mock_pull_stream
+
+        # Mock console to capture output
+        with patch("src.lyrebird.cli.console") as mock_console:
+            client = LyrebirdClient(Provider.ollama, model="llama3")
+
+            # Verify progress updates were called
+            assert mock_console.print.call_count > 0
+            progress_calls = [call[0][0] for call in mock_console.print.call_args_list]
+            assert any("Pulling llama3" in str(call) for call in progress_calls)
+
+    @patch("src.lyrebird.cli.ollama")
+    def test_ollama_model_override(self, mock_ollama):
+        """Test custom model override for Ollama"""
+        mock_ollama.list.return_value = {"models": []}
+
+        client = LyrebirdClient(Provider.ollama, model="custom-model")
+        assert client.model == "custom-model"
+
+    @patch("src.lyrebird.cli.ollama")
+    def test_ollama_default_model(self, mock_ollama):
+        """Test default model selection for Ollama"""
+        mock_ollama.list.return_value = {"models": [{"model": "codellama"}]}
+
+        client = LyrebirdClient(Provider.ollama)
+        assert client.model == "codellama"
+
 
 class TestCLICommands:
     """Test CLI command functionality"""
@@ -79,11 +173,10 @@ class TestCLICommands:
         mock_client.make_request.return_value = "def hello(): print('Hello, World!')"
         mock_client_class.return_value = mock_client
 
-        result = runner.invoke(app, [
-            "generate",
-            "Create a hello world function",
-            "--provider", "openrouter"
-        ])
+        result = runner.invoke(
+            app,
+            ["generate", "Create a hello world function", "--provider", "openrouter"],
+        )
 
         assert result.exit_code == 0
         mock_client.make_request.assert_called_once()
@@ -93,13 +186,16 @@ class TestCLICommands:
     def test_refactor_command(self, mock_client_class):
         """Test refactor command"""
         mock_client = Mock()
-        mock_client.make_request.return_value = "def refactored_function(): return 'refactored'"
+        mock_client.make_request.return_value = (
+            "def refactored_function(): return 'refactored'"
+        )
         mock_client_class.return_value = mock_client
 
-        result = runner.invoke(app, [
-            "refactor",
-            "--provider", "openrouter"
-        ], input="def old_function(): return 'old'")
+        result = runner.invoke(
+            app,
+            ["refactor", "--provider", "openrouter"],
+            input="def old_function(): return 'old'",
+        )
 
         assert result.exit_code == 0
         mock_client.make_request.assert_called_once()
@@ -112,10 +208,11 @@ class TestCLICommands:
         mock_client.make_request.return_value = "This function prints hello world"
         mock_client_class.return_value = mock_client
 
-        result = runner.invoke(app, [
-            "explain",
-            "--provider", "openrouter"
-        ], input="def hello(): print('Hello, World!')")
+        result = runner.invoke(
+            app,
+            ["explain", "--provider", "openrouter"],
+            input="def hello(): print('Hello, World!')",
+        )
 
         assert result.exit_code == 0
         mock_client.make_request.assert_called_once()
@@ -125,7 +222,9 @@ class TestCLICommands:
     def test_summarize_command(self, mock_client_class, tmp_path):
         """Test summarize command using a real temporary directory"""
         mock_client = Mock()
-        mock_client.make_request.return_value = "This is a Python project with basic structure"
+        mock_client.make_request.return_value = (
+            "This is a Python project with basic structure"
+        )
         mock_client_class.return_value = mock_client
 
         # Create a real temporary directory structure
@@ -142,11 +241,9 @@ class TestCLICommands:
         sub_file = sub_dir / "utils.py"
         sub_file.write_text("def helper(): pass")
 
-        result = runner.invoke(app, [
-            "summarize",
-            str(project_dir),
-            "--provider", "openrouter"
-        ])
+        result = runner.invoke(
+            app, ["summarize", str(project_dir), "--provider", "openrouter"]
+        )
 
         assert result.exit_code == 0
 
@@ -176,6 +273,7 @@ class TestCLICommands:
         mock_stdin.read.return_value = "test input"
 
         from src.lyrebird.cli import read_input
+
         result = read_input()
         assert result == "test input"
 
@@ -185,7 +283,8 @@ class TestCLICommands:
 
         # Create temporary file
         import tempfile
-        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.py') as f:
+
+        with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".py") as f:
             f.write("test file content")
             temp_path = Path(f.name)
 
@@ -211,10 +310,11 @@ class TestCLICommands:
         mock_client.make_request.return_value = "def fixed_function(): pass"
         mock_client_class.return_value = mock_client
 
-        result = runner.invoke(app, [
-            "fix",
-            "--provider", "openrouter"
-        ], input="def broken_function(\n    pass")
+        result = runner.invoke(
+            app,
+            ["fix", "--provider", "openrouter"],
+            input="def broken_function(\n    pass",
+        )
 
         assert result.exit_code == 0
         mock_client.make_request.assert_called_once()
