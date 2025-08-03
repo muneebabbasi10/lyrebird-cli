@@ -1,0 +1,14 @@
+# virtual environment
+venv/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Distribution / packaging
+.Python
+
+#ruff
+ruff_cache/
+.ruff_cache
+
