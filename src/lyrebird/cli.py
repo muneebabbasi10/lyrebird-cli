@@ -324,7 +324,7 @@ def main(
 def generate(
     prompt: str = typer.Argument(..., help="Task description for code generation"),
     provider: Provider = typer.Option(
-        ..., "--provider", "-p", help="API provider to use (openrouter or deepseek)"
+        ..., "--provider", "-p", help="API provider to use (openrouter or deepseek or ollama)"
     ),
     file: Optional[Path] = typer.Option(
         None, "--file", "-f", help="Input file for context"
@@ -386,6 +386,41 @@ Requirements:
             progress.remove_task(task)
             console.print(f"[red]Generation failed: {e}[/red]")
             raise typer.Exit(1)
+
+
+@app.command()
+def chat(
+    model: Optional[str] = typer.Option(None, "--model", "-m", help="Model to use"),
+    provider: Provider = typer.Option(
+        ..., "--provider", "-p", help="API provider to use (openrouter or deepseek or ollama)"
+    ),
+):
+    """Start a coding-focused chat session with the assistant."""
+    console = Console()
+    console.print("[bold green]Starting Chat Session. Type 'exit' to quit.[/]")
+    history = []
+    # Initialize LyrebirdClient for chat
+    try:
+        client = LyrebirdClient(Provider(provider), model=model)
+    except Exception as e:
+        console.print(f"[red]Failed to initialize client: {e}[/red]")
+        return
+
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() in ["exit", "quit"]:
+            break
+        # Use LyrebirdClient to generate a completion
+        system_prompt = (
+            "You are Lyrebird, an expert coding assistant designed for CLI use. "
+            "Always provide clear, accurate, and concise responses tailored to software developers. "
+            "Prefer code snippets over long explanations. Use bullet points for steps. "
+            "If unsure, say so rather than guessing. "
+            "When showing code, explain briefly what it does. Avoid unnecessary greetings or sign-offs."
+        )
+        response = client.make_request(system_prompt, user_input)
+        history.append((user_input, response))
+        console.print(f"[cyan]Assistant:[/] {response}")
 
 
 @app.command()
