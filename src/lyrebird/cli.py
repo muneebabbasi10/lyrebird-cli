@@ -390,10 +390,10 @@ Requirements:
 
 @app.command()
 def chat(
-    model: Optional[str] = typer.Option(None, "--model", "-m", help="Model to use"),
     provider: Provider = typer.Option(
         ..., "--provider", "-p", help="API provider to use (openrouter or deepseek or ollama)"
     ),
+    model: Optional[str] = typer.Option(None, "--model", "-m", help="Model to use"),
 ):
     """Start a coding-focused chat session with the assistant."""
     console = Console()
@@ -422,6 +422,30 @@ def chat(
         history.append((user_input, response))
         console.print(f"[cyan]Assistant:[/] {response}")
 
+@app.command()
+def test(
+    file: Path = typer.Argument(..., exists=True),
+    provider: Provider = typer.Option(
+        ..., "--provider", "-p", help="API provider to use (openrouter or deepseek or ollama)"
+    ),
+    model: Optional[str] = typer.Option(None, "--model", "-m", help="Model to use"),
+):
+    """Generate or enhance unit tests for a Python file."
+
+    Given the source code, the model returns improved or new unit tests
+    to validate functionality.
+    """
+    code = file.read_text()
+    prompt = f"Generate or improve unit tests for the following code:\n\n{code}"
+    # Use LyrebirdClient for completion
+    client = LyrebirdClient(Provider(provider), model=model)
+    system_prompt = (
+        "You are an expert Python developer and test writer. "
+        "Given the source code, generate or improve unit tests to validate its functionality. "
+        "Return only the test code, using pytest if possible."
+    )
+    result = client.make_request(system_prompt, prompt)
+    print(result)
 
 @app.command()
 def fix(
