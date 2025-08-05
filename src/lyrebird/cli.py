@@ -139,33 +139,18 @@ class LyrebirdClient:
 
     def _ensure_ollama_model_exists(self):
         """
-        Ensures the requested Ollama model exists locally, pulling it if necessary.
+        Ensures the specified Ollama model is available locally, pulling it if necessary.
 
-        This method performs the following steps:
-        1. Retrieves the list of locally available Ollama models
-        2. Checks if the requested model is in the local model list
-        3. If missing, initiates a pull operation with progress tracking
-        4. Handles pull errors and provides user feedback
-
-        The progress tracking includes:
-        - Download percentage visualization
-        - Verification status updates
-        - Completion notifications
+        This method checks for the local presence of the required Ollama model.
+        If the model is not found, it initiates a download from the Ollama registry.
+        Error handling is included for cases where model verification or pulling fails.
 
         Raises:
-            typer.Exit(1): If model verification or pulling fails
+            typer.Exit(1): If the model cannot be verified or successfully pulled.
 
         Note:
-            This method is automatically called during Ollama client initialization
-            and should not be called directly by users.
-
-        Example Workflow:
-            When initializing with a new model:
-            >>> client = LyrebirdClient(Provider.ollama, model="llama3")
-            # If 'llama3' is missing:
-            [yellow]Model 'llama3' not found locally. Pulling from Ollama...[/yellow]
-            Pulling llama3: downloading ███████████████████ 100%
-            [bold green]✓ Successfully pulled llama3[/bold green]
+            This method is automatically invoked during the initialization of the
+            `LyrebirdClient` when using the Ollama provider.
         """
         try:
             # Check if model exists locally
@@ -266,7 +251,20 @@ def version_callback(value: bool):
 
 
 def read_input(file: Optional[Path] = None) -> str:
-    """Read input from file or stdin"""
+    """
+    Read input from a specified file or from standard input (stdin).
+
+    Args:
+        file (Optional[Path]): The path to the input file. If None,
+                               the function checks for input from stdin.
+
+    Returns:
+        str: The content read from the file or stdin.
+
+    Raises:
+        typer.Exit(1): If the specified file does not exist or if
+                       there's an error reading the file.
+    """
     if file:
         if not file.exists():
             console.print(f"[red]Error: File {file} does not exist[/red]")
@@ -285,7 +283,21 @@ def read_input(file: Optional[Path] = None) -> str:
 
 
 def format_output(content: str, output_format: OutputFormat, task: str) -> str:
-    """Format output according to specified format"""
+    """
+    Format output according to the specified format.
+
+    If `output_format` is `OutputFormat.json`, the content is wrapped in a JSON object
+    along with task, timestamp, and version information. Otherwise, the raw content
+    is returned.
+
+    Args:
+        content (str): The primary content to be formatted.
+        output_format (OutputFormat): The desired output format (e.g., `text`, `json`).
+        task (str): A description of the task being performed (used in JSON output).
+
+    Returns:
+        str: The formatted output string.
+    """
     if output_format == OutputFormat.json:
         return json.dumps(
             {
@@ -301,7 +313,13 @@ def format_output(content: str, output_format: OutputFormat, task: str) -> str:
 
 
 def display_code(content: str, language: str = "python"):
-    """Display code with syntax highlighting"""
+    """
+    Display code with syntax highlighting using Rich's `Syntax` and `Panel`.
+
+    Args:
+        content (str): The code string to display.
+        language (str): The programming language for syntax highlighting (default: "python").
+    """
     syntax = Syntax(content, language, theme="monokai", line_numbers=True)
     console.print(Panel(syntax, title="Generated Code", border_style="green"))
 
@@ -316,7 +334,12 @@ def main(
         help="Show version and exit",
     ),
 ):
-    """🐦 Lyrebird CLI: AI-Powered Coding Assistant in Your Terminal"""
+    """
+    🐦 Lyrebird CLI: AI-Powered Coding Assistant in Your Terminal
+
+    This is the main callback for the Typer application, handling global options
+    like `--version`.
+    """
     pass
 
 
@@ -324,7 +347,7 @@ def main(
 def generate(
     prompt: str = typer.Argument(..., help="Task description for code generation"),
     provider: Provider = typer.Option(
-        ..., "--provider", "-p", help="API provider to use (openrouter or deepseek)"
+        ..., "--provider", "-p", help="API provider to use (openrouter or deepseek or ollama)"
     ),
     file: Optional[Path] = typer.Option(
         None, "--file", "-f", help="Input file for context"
@@ -338,7 +361,30 @@ def generate(
         False, "--verbose", "-v", help="Enable verbose logging"
     ),
 ):
-    """Generate code from a natural language prompt"""
+    """
+    Generate code from a natural language prompt.
+
+    This command takes a natural language prompt and optional context from a file
+    to generate code in a specified programming language. It interacts with an
+    LLM provider (OpenRouter, DeepSeek, or Ollama) to produce the code.
+
+    Args:
+        prompt (str): A detailed description of the coding task.
+        provider (Provider): The LLM service provider to use.
+        file (Optional[Path]): An optional input file whose content will be
+                               used as additional context for code generation.
+        language (str): The programming language for the generated code (default: "python").
+        model (Optional[str]): The specific model name to use for code generation.
+                                If not provided, a default model for the selected
+                                provider will be used.
+        output_format (OutputFormat): The desired format for the output
+                                      (e.g., "text" for direct code display,
+                                      "json" for structured output).
+        verbose (bool): If True, enables verbose logging to display debug information.
+
+    Raises:
+        typer.Exit(1): If code generation fails due to API errors or other issues.
+    """
 
     client = LyrebirdClient(provider, model, verbose)
 
@@ -389,6 +435,86 @@ Requirements:
 
 
 @app.command()
+def chat(
+    provider: Provider = typer.Option(
+        ..., "--provider", "-p", help="API provider to use (openrouter or deepseek or ollama)"
+    ),
+    model: Optional[str] = typer.Option(None, "--model", "-m", help="Model to use"),
+):
+    """
+    Start a coding-focused chat session with the assistant.
+
+    This command initiates an interactive chat session where users can ask
+    coding-related questions and receive responses from the LLM. The session
+    continues until the user types 'exit' or 'quit'.
+
+    Args:
+        provider (Provider): The LLM service provider to use for the chat session.
+        model (Optional[str]): The specific model name to use for chat responses.
+                               If not provided, a default model for the selected
+                               provider will be used.
+    """
+    console = Console()
+    console.print("[bold green]Starting Chat Session. Type 'exit' to quit.[/]")
+    history = []
+    # Initialize LyrebirdClient for chat
+    try:
+        client = LyrebirdClient(Provider(provider), model=model)
+    except Exception as e:
+        console.print(f"[red]Failed to initialize client: {e}[/red]")
+        return
+
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() in ["exit", "quit"]:
+            break
+        # Use LyrebirdClient to generate a completion
+        system_prompt = (
+            "You are Lyrebird, an expert coding assistant designed for CLI use. "
+            "Always provide clear, accurate, and concise responses tailored to software developers. "
+            "Prefer code snippets over long explanations. Use bullet points for steps. "
+            "If unsure, say so rather than guessing. "
+            "When showing code, explain briefly what it does. Avoid unnecessary greetings or sign-offs."
+        )
+        response = client.make_request(system_prompt, user_input)
+        history.append((user_input, response))
+        console.print(f"[cyan]Assistant:[/] {response}")
+
+@app.command()
+def test(
+    file: Path = typer.Argument(..., exists=True),
+    provider: Provider = typer.Option(
+        ..., "--provider", "-p", help="API provider to use (openrouter or deepseek or ollama)"
+    ),
+    model: Optional[str] = typer.Option(None, "--model", "-m", help="Model to use"),
+):
+    """
+    Generate or enhance unit tests for a Python file.
+
+    Given the source code of a Python file, this command leverages an LLM to
+    produce new or improved unit tests to validate its functionality.
+    The output is primarily the generated test code, preferably using pytest.
+
+    Args:
+        file (Path): The path to the Python file for which to generate/improve tests.
+                     The file must exist.
+        provider (Provider): The LLM service provider to use for test generation.
+        model (Optional[str]): The specific model name to use. If not provided,
+                               a default model for the selected provider will be used.
+    """
+    code = file.read_text()
+    prompt = f"Generate or improve unit tests for the following code:\n\n{code}"
+    # Use LyrebirdClient for completion
+    client = LyrebirdClient(Provider(provider), model=model)
+    system_prompt = (
+        "You are an expert Python developer and test writer. "
+        "Given the source code, generate or improve unit tests to validate its functionality. "
+        "Return only the test code, using pytest if possible."
+    )
+    result = client.make_request(system_prompt, prompt)
+    print(result)
+
+@app.command()
 def fix(
     file: Optional[Path] = typer.Argument(
         None, help="File to fix (or read from stdin)"
@@ -404,7 +530,27 @@ def fix(
         False, "--verbose", "-v", help="Enable verbose logging"
     ),
 ):
-    """Fix bugs and errors in code"""
+    """
+    Fix bugs and errors in code.
+
+    This command takes code from a file or stdin, identifies bugs, syntax errors,
+    and logical issues, and then provides a corrected version of the code.
+    It attempts to detect the programming language based on the file extension.
+
+    Args:
+        file (Optional[Path]): The path to the file containing the code to fix.
+                               If None, code will be read from stdin.
+        provider (Provider): The LLM service provider to use for code fixing.
+        model (Optional[str]): The specific model name to use. If not provided,
+                               a default model for the selected provider will be used.
+        output_format (OutputFormat): The desired format for the output
+                                      (e.g., "text" for direct code display,
+                                      "json" for structured output).
+        verbose (bool): If True, enables verbose logging.
+
+    Raises:
+        typer.Exit(1): If no code is provided, or if code fixing fails.
+    """
 
     client = LyrebirdClient(provider, model, verbose)
 
@@ -483,7 +629,25 @@ def refactor(
         False, "--verbose", "-v", help="Enable verbose logging"
     ),
 ):
-    """Refactor code for better performance and readability"""
+    """
+    Refactor code for better performance and readability.
+
+    This command takes code from a file or stdin and uses an LLM to refactor it.
+    The refactoring aims to improve readability, performance, maintainability,
+    and adherence to best practices, all while preserving original functionality.
+
+    Args:
+        file (Optional[Path]): The path to the file containing the code to refactor.
+                               If None, code will be read from stdin.
+        provider (Provider): The LLM service provider to use for refactoring.
+        model (Optional[str]): The specific model name to use. If not provided,
+                               a default model for the selected provider will be used.
+        output_format (OutputFormat): The desired format for the output.
+        verbose (bool): If True, enables verbose logging.
+
+    Raises:
+        typer.Exit(1): If no code is provided, or if refactoring fails.
+    """
 
     client = LyrebirdClient(provider, model, verbose)
 
@@ -564,7 +728,25 @@ def explain(
         False, "--verbose", "-v", help="Enable verbose logging"
     ),
 ):
-    """Explain code functionality and structure"""
+    """
+    Explain code functionality and structure.
+
+    This command takes code from a file or stdin and provides a detailed explanation
+    of its purpose, functionality, structure, algorithms, and design patterns.
+    It aims to help users understand complex codebases.
+
+    Args:
+        file (Optional[Path]): The path to the file containing the code to explain.
+                               If None, code will be read from stdin.
+        provider (Provider): The LLM service provider to use for explanation.
+        model (Optional[str]): The specific model name to use. If not provided,
+                               a default model for the selected provider will be used.
+        output_format (OutputFormat): The desired format for the output.
+        verbose (bool): If True, enables verbose logging.
+
+    Raises:
+        typer.Exit(1): If no code is provided, or if the explanation fails.
+    """
 
     client = LyrebirdClient(provider, model, verbose)
 
@@ -643,7 +825,27 @@ def summarize(
         False, "--verbose", "-v", help="Enable verbose logging"
     ),
 ):
-    """Summarize codebase structure and architecture"""
+    """
+    Summarize codebase structure and architecture.
+
+    This command analyzes a given directory, identifies common code files,
+    and provides a high-level summary of the codebase's architecture,
+    main components, technology stack, design patterns, and overall functionality.
+    It helps in quickly grasping the essence of a project.
+
+    Args:
+        directory (Path): The path to the directory containing the codebase to summarize.
+                          The directory must exist.
+        provider (Provider): The LLM service provider to use for summarization.
+        model (Optional[str]): The specific model name to use. If not provided,
+                               a default model for the selected provider will be used.
+        output_format (OutputFormat): The desired format for the output.
+        verbose (bool): If True, enables verbose logging.
+
+    Raises:
+        typer.Exit(1): If the provided path is not a valid directory, if no code
+                       files are found, or if the summarization fails.
+    """
 
     client = LyrebirdClient(provider, model, verbose)
 

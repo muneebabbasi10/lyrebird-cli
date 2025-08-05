@@ -1,0 +1,632 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>lyrebird package &mdash; Lyrebird CLI Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="src" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            lyrebird-cli
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">lyrebird package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-lyrebird.cli">lyrebird.cli module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#lyrebird.cli.LyrebirdClient"><code class="docutils literal notranslate"><span class="pre">LyrebirdClient</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lyrebird.cli.OutputFormat"><code class="docutils literal notranslate"><span class="pre">OutputFormat</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lyrebird.cli.Provider"><code class="docutils literal notranslate"><span class="pre">Provider</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lyrebird.cli.chat"><code class="docutils literal notranslate"><span class="pre">chat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lyrebird.cli.display_code"><code class="docutils literal notranslate"><span class="pre">display_code()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lyrebird.cli.explain"><code class="docutils literal notranslate"><span class="pre">explain()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lyrebird.cli.fix"><code class="docutils literal notranslate"><span class="pre">fix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lyrebird.cli.format_output"><code class="docutils literal notranslate"><span class="pre">format_output()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lyrebird.cli.generate"><code class="docutils literal notranslate"><span class="pre">generate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lyrebird.cli.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lyrebird.cli.read_input"><code class="docutils literal notranslate"><span class="pre">read_input()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lyrebird.cli.refactor"><code class="docutils literal notranslate"><span class="pre">refactor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lyrebird.cli.summarize"><code class="docutils literal notranslate"><span class="pre">summarize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lyrebird.cli.test"><code class="docutils literal notranslate"><span class="pre">test()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lyrebird.cli.version_callback"><code class="docutils literal notranslate"><span class="pre">version_callback()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-lyrebird">Module contents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#lyrebird.LyrebirdClient"><code class="docutils literal notranslate"><span class="pre">LyrebirdClient</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lyrebird.OutputFormat"><code class="docutils literal notranslate"><span class="pre">OutputFormat</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lyrebird.Provider"><code class="docutils literal notranslate"><span class="pre">Provider</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">lyrebird-cli</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">src</a></li>
+      <li class="breadcrumb-item active">lyrebird package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/lyrebird.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="lyrebird-package">
+<h1>lyrebird package<a class="headerlink" href="#lyrebird-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-lyrebird.cli">
+<span id="lyrebird-cli-module"></span><h2>lyrebird.cli module<a class="headerlink" href="#module-lyrebird.cli" title="Link to this heading"></a></h2>
+<p>Lyrebird CLI: An AI-Powered Coding Assistant in Your Terminal
+Main CLI module using Typer framework</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="lyrebird.cli.LyrebirdClient">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lyrebird.cli.</span></span><span class="sig-name descname"><span class="pre">LyrebirdClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">provider</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#lyrebird.cli.Provider" title="lyrebird.cli.Provider"><span class="pre">Provider</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lyrebird/cli.html#LyrebirdClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.cli.LyrebirdClient" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Client for interacting with Large Language Model (LLM) APIs.</p>
+<p>This class provides a unified interface to interact with different LLM providers
+including OpenRouter, DeepSeek, and Ollama. It handles authentication, model selection,
+and request formatting.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lyrebird.cli.LyrebirdClient.provider">
+<span class="sig-name descname"><span class="pre">provider</span></span><a class="headerlink" href="#lyrebird.cli.LyrebirdClient.provider" title="Link to this definition"></a></dt>
+<dd><p>The LLM service provider to use</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#lyrebird.cli.Provider" title="lyrebird.cli.Provider">Provider</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lyrebird.cli.LyrebirdClient.verbose">
+<span class="sig-name descname"><span class="pre">verbose</span></span><a class="headerlink" href="#lyrebird.cli.LyrebirdClient.verbose" title="Link to this definition"></a></dt>
+<dd><p>Flag to enable verbose logging</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lyrebird.cli.LyrebirdClient.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#lyrebird.cli.LyrebirdClient.model" title="Link to this definition"></a></dt>
+<dd><p>The specific model to use for requests</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lyrebird.cli.LyrebirdClient.client">
+<span class="sig-name descname"><span class="pre">client</span></span><a class="headerlink" href="#lyrebird.cli.LyrebirdClient.client" title="Link to this definition"></a></dt>
+<dd><p>The client instance for the selected provider</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[OpenAI, ollama]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">client</span> <span class="o">=</span> <span class="n">LyrebirdClient</span><span class="p">(</span><span class="n">Provider</span><span class="o">.</span><span class="n">ollama</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;codellama&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">make_request</span><span class="p">(</span><span class="s2">&quot;System prompt&quot;</span><span class="p">,</span> <span class="s2">&quot;User query&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="lyrebird.cli.LyrebirdClient.make_request">
+<span class="sig-name descname"><span class="pre">make_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system_prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/lyrebird/cli.html#LyrebirdClient.make_request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.cli.LyrebirdClient.make_request" title="Link to this definition"></a></dt>
+<dd><p>Sends a chat completion request to the selected LLM provider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>system_prompt</strong> (<em>str</em>) – The system role content.</p></li>
+<li><p><strong>user_prompt</strong> (<em>str</em>) – The user’s input prompt.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The response content from the model.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lyrebird.cli.OutputFormat">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lyrebird.cli.</span></span><span class="sig-name descname"><span class="pre">OutputFormat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lyrebird/cli.html#OutputFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.cli.OutputFormat" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lyrebird.cli.OutputFormat.json">
+<span class="sig-name descname"><span class="pre">json</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'json'</span></em><a class="headerlink" href="#lyrebird.cli.OutputFormat.json" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lyrebird.cli.OutputFormat.text">
+<span class="sig-name descname"><span class="pre">text</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'text'</span></em><a class="headerlink" href="#lyrebird.cli.OutputFormat.text" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lyrebird.cli.Provider">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lyrebird.cli.</span></span><span class="sig-name descname"><span class="pre">Provider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lyrebird/cli.html#Provider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.cli.Provider" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lyrebird.cli.Provider.deepseek">
+<span class="sig-name descname"><span class="pre">deepseek</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'deepseek'</span></em><a class="headerlink" href="#lyrebird.cli.Provider.deepseek" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lyrebird.cli.Provider.ollama">
+<span class="sig-name descname"><span class="pre">ollama</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ollama'</span></em><a class="headerlink" href="#lyrebird.cli.Provider.ollama" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lyrebird.cli.Provider.openrouter">
+<span class="sig-name descname"><span class="pre">openrouter</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'openrouter'</span></em><a class="headerlink" href="#lyrebird.cli.Provider.openrouter" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lyrebird.cli.chat">
+<span class="sig-prename descclassname"><span class="pre">lyrebird.cli.</span></span><span class="sig-name descname"><span class="pre">chat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">provider:</span> <span class="pre">~lyrebird.cli.Provider</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lyrebird/cli.html#chat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.cli.chat" title="Link to this definition"></a></dt>
+<dd><p>Start a coding-focused chat session with the assistant.</p>
+<p>This command initiates an interactive chat session where users can ask
+coding-related questions and receive responses from the LLM. The session
+continues until the user types ‘exit’ or ‘quit’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>provider</strong> (<a class="reference internal" href="#lyrebird.cli.Provider" title="lyrebird.cli.Provider"><em>Provider</em></a>) – The LLM service provider to use for the chat session.</p></li>
+<li><p><strong>model</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The specific model name to use for chat responses.
+If not provided, a default model for the selected
+provider will be used.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lyrebird.cli.display_code">
+<span class="sig-prename descclassname"><span class="pre">lyrebird.cli.</span></span><span class="sig-name descname"><span class="pre">display_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'python'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lyrebird/cli.html#display_code"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.cli.display_code" title="Link to this definition"></a></dt>
+<dd><p>Display code with syntax highlighting using Rich’s <cite>Syntax</cite> and <cite>Panel</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>content</strong> (<em>str</em>) – The code string to display.</p></li>
+<li><p><strong>language</strong> (<em>str</em>) – The programming language for syntax highlighting (default: “python”).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lyrebird.cli.explain">
+<span class="sig-prename descclassname"><span class="pre">lyrebird.cli.</span></span><span class="sig-name descname"><span class="pre">explain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file:</span> <span class="pre">~pathlib.Path</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.ArgumentInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">provider:</span> <span class="pre">~lyrebird.cli.Provider</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format:</span> <span class="pre">~lyrebird.cli.OutputFormat</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lyrebird/cli.html#explain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.cli.explain" title="Link to this definition"></a></dt>
+<dd><p>Explain code functionality and structure.</p>
+<p>This command takes code from a file or stdin and provides a detailed explanation
+of its purpose, functionality, structure, algorithms, and design patterns.
+It aims to help users understand complex codebases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<em>Optional</em><em>[</em><em>Path</em><em>]</em>) – The path to the file containing the code to explain.
+If None, code will be read from stdin.</p></li>
+<li><p><strong>provider</strong> (<a class="reference internal" href="#lyrebird.cli.Provider" title="lyrebird.cli.Provider"><em>Provider</em></a>) – The LLM service provider to use for explanation.</p></li>
+<li><p><strong>model</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The specific model name to use. If not provided,
+a default model for the selected provider will be used.</p></li>
+<li><p><strong>output_format</strong> (<a class="reference internal" href="#lyrebird.cli.OutputFormat" title="lyrebird.cli.OutputFormat"><em>OutputFormat</em></a>) – The desired format for the output.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – If True, enables verbose logging.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>typer.Exit</strong><strong>(</strong><strong>1</strong><strong>)</strong> – If no code is provided, or if the explanation fails.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lyrebird.cli.fix">
+<span class="sig-prename descclassname"><span class="pre">lyrebird.cli.</span></span><span class="sig-name descname"><span class="pre">fix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file:</span> <span class="pre">~pathlib.Path</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.ArgumentInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">provider:</span> <span class="pre">~lyrebird.cli.Provider</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format:</span> <span class="pre">~lyrebird.cli.OutputFormat</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lyrebird/cli.html#fix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.cli.fix" title="Link to this definition"></a></dt>
+<dd><p>Fix bugs and errors in code.</p>
+<p>This command takes code from a file or stdin, identifies bugs, syntax errors,
+and logical issues, and then provides a corrected version of the code.
+It attempts to detect the programming language based on the file extension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<em>Optional</em><em>[</em><em>Path</em><em>]</em>) – The path to the file containing the code to fix.
+If None, code will be read from stdin.</p></li>
+<li><p><strong>provider</strong> (<a class="reference internal" href="#lyrebird.cli.Provider" title="lyrebird.cli.Provider"><em>Provider</em></a>) – The LLM service provider to use for code fixing.</p></li>
+<li><p><strong>model</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The specific model name to use. If not provided,
+a default model for the selected provider will be used.</p></li>
+<li><p><strong>output_format</strong> (<a class="reference internal" href="#lyrebird.cli.OutputFormat" title="lyrebird.cli.OutputFormat"><em>OutputFormat</em></a>) – The desired format for the output
+(e.g., “text” for direct code display,
+“json” for structured output).</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – If True, enables verbose logging.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>typer.Exit</strong><strong>(</strong><strong>1</strong><strong>)</strong> – If no code is provided, or if code fixing fails.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lyrebird.cli.format_output">
+<span class="sig-prename descclassname"><span class="pre">lyrebird.cli.</span></span><span class="sig-name descname"><span class="pre">format_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#lyrebird.cli.OutputFormat" title="lyrebird.cli.OutputFormat"><span class="pre">OutputFormat</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/lyrebird/cli.html#format_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.cli.format_output" title="Link to this definition"></a></dt>
+<dd><p>Format output according to the specified format.</p>
+<p>If <cite>output_format</cite> is <cite>OutputFormat.json</cite>, the content is wrapped in a JSON object
+along with task, timestamp, and version information. Otherwise, the raw content
+is returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>content</strong> (<em>str</em>) – The primary content to be formatted.</p></li>
+<li><p><strong>output_format</strong> (<a class="reference internal" href="#lyrebird.cli.OutputFormat" title="lyrebird.cli.OutputFormat"><em>OutputFormat</em></a>) – The desired output format (e.g., <cite>text</cite>, <cite>json</cite>).</p></li>
+<li><p><strong>task</strong> (<em>str</em>) – A description of the task being performed (used in JSON output).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The formatted output string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lyrebird.cli.generate">
+<span class="sig-prename descclassname"><span class="pre">lyrebird.cli.</span></span><span class="sig-name descname"><span class="pre">generate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.ArgumentInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">provider:</span> <span class="pre">~lyrebird.cli.Provider</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file:</span> <span class="pre">~pathlib.Path</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">language:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format:</span> <span class="pre">~lyrebird.cli.OutputFormat</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lyrebird/cli.html#generate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.cli.generate" title="Link to this definition"></a></dt>
+<dd><p>Generate code from a natural language prompt.</p>
+<p>This command takes a natural language prompt and optional context from a file
+to generate code in a specified programming language. It interacts with an
+LLM provider (OpenRouter, DeepSeek, or Ollama) to produce the code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prompt</strong> (<em>str</em>) – A detailed description of the coding task.</p></li>
+<li><p><strong>provider</strong> (<a class="reference internal" href="#lyrebird.cli.Provider" title="lyrebird.cli.Provider"><em>Provider</em></a>) – The LLM service provider to use.</p></li>
+<li><p><strong>file</strong> (<em>Optional</em><em>[</em><em>Path</em><em>]</em>) – An optional input file whose content will be
+used as additional context for code generation.</p></li>
+<li><p><strong>language</strong> (<em>str</em>) – The programming language for the generated code (default: “python”).</p></li>
+<li><p><strong>model</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The specific model name to use for code generation.
+If not provided, a default model for the selected
+provider will be used.</p></li>
+<li><p><strong>output_format</strong> (<a class="reference internal" href="#lyrebird.cli.OutputFormat" title="lyrebird.cli.OutputFormat"><em>OutputFormat</em></a>) – The desired format for the output
+(e.g., “text” for direct code display,
+“json” for structured output).</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – If True, enables verbose logging to display debug information.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>typer.Exit</strong><strong>(</strong><strong>1</strong><strong>)</strong> – If code generation fails due to API errors or other issues.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lyrebird.cli.main">
+<span class="sig-prename descclassname"><span class="pre">lyrebird.cli.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">version:</span> <span class="pre">bool</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lyrebird/cli.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.cli.main" title="Link to this definition"></a></dt>
+<dd><p>🐦 Lyrebird CLI: AI-Powered Coding Assistant in Your Terminal</p>
+<p>This is the main callback for the Typer application, handling global options
+like <cite>–version</cite>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lyrebird.cli.read_input">
+<span class="sig-prename descclassname"><span class="pre">lyrebird.cli.</span></span><span class="sig-name descname"><span class="pre">read_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/lyrebird/cli.html#read_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.cli.read_input" title="Link to this definition"></a></dt>
+<dd><p>Read input from a specified file or from standard input (stdin).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file</strong> (<em>Optional</em><em>[</em><em>Path</em><em>]</em>) – The path to the input file. If None,
+the function checks for input from stdin.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The content read from the file or stdin.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>typer.Exit</strong><strong>(</strong><strong>1</strong><strong>)</strong> – If the specified file does not exist or if
+    there’s an error reading the file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lyrebird.cli.refactor">
+<span class="sig-prename descclassname"><span class="pre">lyrebird.cli.</span></span><span class="sig-name descname"><span class="pre">refactor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file:</span> <span class="pre">~pathlib.Path</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.ArgumentInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">provider:</span> <span class="pre">~lyrebird.cli.Provider</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format:</span> <span class="pre">~lyrebird.cli.OutputFormat</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lyrebird/cli.html#refactor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.cli.refactor" title="Link to this definition"></a></dt>
+<dd><p>Refactor code for better performance and readability.</p>
+<p>This command takes code from a file or stdin and uses an LLM to refactor it.
+The refactoring aims to improve readability, performance, maintainability,
+and adherence to best practices, all while preserving original functionality.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<em>Optional</em><em>[</em><em>Path</em><em>]</em>) – The path to the file containing the code to refactor.
+If None, code will be read from stdin.</p></li>
+<li><p><strong>provider</strong> (<a class="reference internal" href="#lyrebird.cli.Provider" title="lyrebird.cli.Provider"><em>Provider</em></a>) – The LLM service provider to use for refactoring.</p></li>
+<li><p><strong>model</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The specific model name to use. If not provided,
+a default model for the selected provider will be used.</p></li>
+<li><p><strong>output_format</strong> (<a class="reference internal" href="#lyrebird.cli.OutputFormat" title="lyrebird.cli.OutputFormat"><em>OutputFormat</em></a>) – The desired format for the output.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – If True, enables verbose logging.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>typer.Exit</strong><strong>(</strong><strong>1</strong><strong>)</strong> – If no code is provided, or if refactoring fails.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lyrebird.cli.summarize">
+<span class="sig-prename descclassname"><span class="pre">lyrebird.cli.</span></span><span class="sig-name descname"><span class="pre">summarize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory:</span> <span class="pre">~pathlib.Path</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.ArgumentInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">provider:</span> <span class="pre">~lyrebird.cli.Provider</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_format:</span> <span class="pre">~lyrebird.cli.OutputFormat</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lyrebird/cli.html#summarize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.cli.summarize" title="Link to this definition"></a></dt>
+<dd><p>Summarize codebase structure and architecture.</p>
+<p>This command analyzes a given directory, identifies common code files,
+and provides a high-level summary of the codebase’s architecture,
+main components, technology stack, design patterns, and overall functionality.
+It helps in quickly grasping the essence of a project.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>directory</strong> (<em>Path</em>) – The path to the directory containing the codebase to summarize.
+The directory must exist.</p></li>
+<li><p><strong>provider</strong> (<a class="reference internal" href="#lyrebird.cli.Provider" title="lyrebird.cli.Provider"><em>Provider</em></a>) – The LLM service provider to use for summarization.</p></li>
+<li><p><strong>model</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The specific model name to use. If not provided,
+a default model for the selected provider will be used.</p></li>
+<li><p><strong>output_format</strong> (<a class="reference internal" href="#lyrebird.cli.OutputFormat" title="lyrebird.cli.OutputFormat"><em>OutputFormat</em></a>) – The desired format for the output.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – If True, enables verbose logging.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>typer.Exit</strong><strong>(</strong><strong>1</strong><strong>)</strong> – If the provided path is not a valid directory, if no code
+    files are found, or if the summarization fails.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lyrebird.cli.test">
+<span class="sig-prename descclassname"><span class="pre">lyrebird.cli.</span></span><span class="sig-name descname"><span class="pre">test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file:</span> <span class="pre">~pathlib.Path</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.ArgumentInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">provider:</span> <span class="pre">~lyrebird.cli.Provider</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model:</span> <span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">&lt;typer.models.OptionInfo</span> <span class="pre">object&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lyrebird/cli.html#test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.cli.test" title="Link to this definition"></a></dt>
+<dd><p>Generate or enhance unit tests for a Python file.</p>
+<p>Given the source code of a Python file, this command leverages an LLM to
+produce new or improved unit tests to validate its functionality.
+The output is primarily the generated test code, preferably using pytest.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<em>Path</em>) – The path to the Python file for which to generate/improve tests.
+The file must exist.</p></li>
+<li><p><strong>provider</strong> (<a class="reference internal" href="#lyrebird.cli.Provider" title="lyrebird.cli.Provider"><em>Provider</em></a>) – The LLM service provider to use for test generation.</p></li>
+<li><p><strong>model</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – The specific model name to use. If not provided,
+a default model for the selected provider will be used.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lyrebird.cli.version_callback">
+<span class="sig-prename descclassname"><span class="pre">lyrebird.cli.</span></span><span class="sig-name descname"><span class="pre">version_callback</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lyrebird/cli.html#version_callback"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.cli.version_callback" title="Link to this definition"></a></dt>
+<dd><p>Show version information</p>
+</dd></dl>
+
+</section>
+<section id="module-lyrebird">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-lyrebird" title="Link to this heading"></a></h2>
+<p>Lyrebird CLI: An AI-Powered Coding Assistant in Your Terminal</p>
+<p>A modern CLI tool that brings LLM-powered code generation, debugging,
+refactoring, and explanation capabilities directly to your terminal.</p>
+<p>Supports OpenRouter and DeepSeek APIs for flexible model selection.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="lyrebird.LyrebirdClient">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lyrebird.</span></span><span class="sig-name descname"><span class="pre">LyrebirdClient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">provider</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#lyrebird.cli.Provider" title="lyrebird.cli.Provider"><span class="pre">Provider</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lyrebird/cli.html#LyrebirdClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.LyrebirdClient" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Client for interacting with Large Language Model (LLM) APIs.</p>
+<p>This class provides a unified interface to interact with different LLM providers
+including OpenRouter, DeepSeek, and Ollama. It handles authentication, model selection,
+and request formatting.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lyrebird.LyrebirdClient.provider">
+<span class="sig-name descname"><span class="pre">provider</span></span><a class="headerlink" href="#lyrebird.LyrebirdClient.provider" title="Link to this definition"></a></dt>
+<dd><p>The LLM service provider to use</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#lyrebird.Provider" title="lyrebird.Provider">Provider</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lyrebird.LyrebirdClient.verbose">
+<span class="sig-name descname"><span class="pre">verbose</span></span><a class="headerlink" href="#lyrebird.LyrebirdClient.verbose" title="Link to this definition"></a></dt>
+<dd><p>Flag to enable verbose logging</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lyrebird.LyrebirdClient.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#lyrebird.LyrebirdClient.model" title="Link to this definition"></a></dt>
+<dd><p>The specific model to use for requests</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lyrebird.LyrebirdClient.client">
+<span class="sig-name descname"><span class="pre">client</span></span><a class="headerlink" href="#lyrebird.LyrebirdClient.client" title="Link to this definition"></a></dt>
+<dd><p>The client instance for the selected provider</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[OpenAI, ollama]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">client</span> <span class="o">=</span> <span class="n">LyrebirdClient</span><span class="p">(</span><span class="n">Provider</span><span class="o">.</span><span class="n">ollama</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;codellama&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">make_request</span><span class="p">(</span><span class="s2">&quot;System prompt&quot;</span><span class="p">,</span> <span class="s2">&quot;User query&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="lyrebird.LyrebirdClient.make_request">
+<span class="sig-name descname"><span class="pre">make_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system_prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user_prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/lyrebird/cli.html#LyrebirdClient.make_request"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.LyrebirdClient.make_request" title="Link to this definition"></a></dt>
+<dd><p>Sends a chat completion request to the selected LLM provider.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>system_prompt</strong> (<em>str</em>) – The system role content.</p></li>
+<li><p><strong>user_prompt</strong> (<em>str</em>) – The user’s input prompt.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The response content from the model.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lyrebird.OutputFormat">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lyrebird.</span></span><span class="sig-name descname"><span class="pre">OutputFormat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lyrebird/cli.html#OutputFormat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.OutputFormat" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lyrebird.OutputFormat.json">
+<span class="sig-name descname"><span class="pre">json</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'json'</span></em><a class="headerlink" href="#lyrebird.OutputFormat.json" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lyrebird.OutputFormat.text">
+<span class="sig-name descname"><span class="pre">text</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'text'</span></em><a class="headerlink" href="#lyrebird.OutputFormat.text" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lyrebird.Provider">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lyrebird.</span></span><span class="sig-name descname"><span class="pre">Provider</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lyrebird/cli.html#Provider"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#lyrebird.Provider" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lyrebird.Provider.deepseek">
+<span class="sig-name descname"><span class="pre">deepseek</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'deepseek'</span></em><a class="headerlink" href="#lyrebird.Provider.deepseek" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lyrebird.Provider.ollama">
+<span class="sig-name descname"><span class="pre">ollama</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ollama'</span></em><a class="headerlink" href="#lyrebird.Provider.ollama" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lyrebird.Provider.openrouter">
+<span class="sig-name descname"><span class="pre">openrouter</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'openrouter'</span></em><a class="headerlink" href="#lyrebird.Provider.openrouter" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="src" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, lyrebird-team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
